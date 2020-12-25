@@ -1,1 +1,1 @@
-# bottle-of-fireflies
+# Fireflies in a jar
