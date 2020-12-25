@@ -3,19 +3,19 @@
 #include <avr/sleep.h>
 
 
-#define FIREFLIES_NUM 4 // number of fireflies
-#define ACC_PIN 15 // A1 - pin connected to the first accelerometer axis - the other 2 are the following pins
+#define FIREFLIES_NUM 12 // number of fireflies (LEDs)
+#define ACC_PIN A0 // A0 - pin connected to the first accelerometer axis - the other 2 are the following pins
 #define SLEEP_PIN 2 // pin connected to the power button - must be interrupt
 #define STATUS_PIN 3 // status led pin
-#define LIGHT_DURATION 5000 // duration of an animation
+#define LIGHT_DURATION 7500 // duration of an animation
 #define PAUSE_FRACTION 3 // pause will last LIGHT_DURATION * 1 / PAUSE_FRACTION
-#define OFFSET_DIV 25 // ratio of movement towards average
+#define OFFSET_DIV 100 // ratio of movement towards average
 #define MAX_PWM 200 // max PWM duty cicle of each firefly
-#define MAX_ACC 1.75 // max acceleration before reset
+#define MAX_ACC 2.75 // max acceleration before reset
 #define MAX_EQUAL_ITERATIONS 6 // number of iterations with same offset before the whole program is reset with random values
 
 
-byte fireflies_pins[FIREFLIES_NUM] = {5, 6, 7, 8}; // this array should be changed to keep track of where the LEDs are connected
+byte fireflies_pins[FIREFLIES_NUM] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15}; // this array should be changed to keep track of where the LEDs are connected
 byte fireflies_value[FIREFLIES_NUM]; // this array contains the current PWM value of the led
 byte fireflies_offset[FIREFLIES_NUM]; // this array contains the current offset (animation delay) of the led
 byte equal_iterations; // number of animations with the same offset for each led
@@ -36,7 +36,7 @@ void go_to_sleep();
 // reset all variables
 void reset() {
   // random seeding with floating pin
-  randomSeed(analogRead(A0));
+  randomSeed(analogRead(A3));
 
   // reset each firefly array
   for (byte i = 0; i < FIREFLIES_NUM; i++)
@@ -56,9 +56,9 @@ void reset() {
 // calculate acceleration module
 float acceleration()
 {
-  float ax = float(analogRead(ACC_PIN)) / 1024 * 3;
-  float ay = float(analogRead(ACC_PIN + 1)) / 1024 * 3;
-  float az = float(analogRead(ACC_PIN + 2)) / 1024 * 3;
+  float ax = analogRead(ACC_PIN) / 1024.0 * 3;
+  float ay = analogRead(ACC_PIN + 1) / 1024.0 * 3;
+  float az = analogRead(ACC_PIN + 2) / 1024.0 * 3;
   float module = sqrt(pow(ax, 2) + pow(ay, 2) + pow(az, 2));
   return module;
 }
@@ -102,11 +102,13 @@ void go_to_sleep() {
   while (digitalRead(SLEEP_PIN) == LOW) {
     delay(50);
   }
+
   // turn on status led
-  SoftPWMSet(STATUS_PIN, 5);
+  SoftPWMSet(STATUS_PIN, 64);
 }
 
 void setup() {
+  Serial.begin(9600);
   // set each pin direction
   // LEDS
   for (byte i = 0; i < FIREFLIES_NUM; i++) {
@@ -123,7 +125,7 @@ void setup() {
 
   SoftPWMBegin();
 
-  shook = false;
+  // reset everything
   reset();
   // now sleep until there's user interaction
   go_to_sleep();
@@ -136,10 +138,11 @@ void loop() {
     if (digitalRead(SLEEP_PIN) == LOW) {
       go_to_sleep();
     }
+
     // update started time
     started = millis();
     if (shook) {
-      // the arduino has been shook, we can animate
+      // the arduino has been shook, we can calculate
       // average offset calculation
       float total_offset = 0;
       for (byte i = 0; i < FIREFLIES_NUM; i++) {
@@ -188,8 +191,8 @@ void loop() {
       }
 
       // check if all fireflies have the same delay (approx)
-      bool all_equal = true || (equal_iterations != 0);
-      for (byte i = 1; i < FIREFLIES_NUM && all_equal; i++) {
+      bool all_equal = true;
+      for (byte i = 1; i < FIREFLIES_NUM && (equal_iterations == 0); i++) {
         all_equal = abs(fireflies_offset[i] - fireflies_offset[i - 1]) < 1.5;
       }
       // if so, check how many times it has happened before resetting
