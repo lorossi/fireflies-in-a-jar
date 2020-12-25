@@ -15,26 +15,26 @@ After turning the Arduino on by pressing the button on the jar lid, shake it gen
 I used:
 - Sparkfun Arduino Pro Micro (it has a lot of available pins)
 - 13 leds with one resistor each
-- A button wired between the ~RST~ and ~GND~ pins of the microcontroller to make life a little easier when I wanted to flash it again
-- A LiPo battery (a big one, ~7000mAh) with a charging controller to prevent explosions (nobody likes those)
-- A cheap accelerometer (I used a ~GY521~, but anything cheap and not fancy is good) to detect when the jar is shaken
+- A button wired between the `RST` and `GND` pins of the microcontroller to make life a little easier when I wanted to flash it again
+- A LiPo battery (a big one, `7000mAh) with a charging controller to prevent explosions (nobody likes those)
+- A cheap accelerometer (I used a `GY521`, but anything cheap and not fancy is good) to detect when the jar is shaken
 - A glass jar with a cork lid
 
-I would say that the total price is ~15€ if you buy the electronic parts from Aliexpress (as I did).
+I would say that the total price is `15€ if you buy the electronic parts from Aliexpress (as I did).
 
 ## Wiring
-- Pins ~A0~ to ~A3~ are connected to the accelerometer
-- Pin ~2~ is connected to a pushbutton (this pin must have interrupt)
-- Pin ~3~ is connected to the status led
-- Pins ~0, 1, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15~ are connected to the yellow LEDS
-- Pin ~A3~ should be left floating to seed the random function generator
+- Pins `A0` to `A3` are connected to the accelerometer
+- Pin `2` is connected to a pushbutton (this pin must have interrupt)
+- Pin `3` is connected to the status led
+- Pins `0, 1, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15` are connected to the yellow LEDS
+- Pin `A3` should be left floating to seed the random function generator
 
 All these variables can be changed as they are declared on top.
 
 ## Dependencies
 This firmware makes use of the [SoftPWM](https://github.com/bhagman/SoftPWM) library by [bhagman](https://github.com/bhagman).
 
-To handle the deep sleep, it uses the built in ~avr/sleep.h~ library.
+To handle the deep sleep, it uses the built in `avr/sleep.h` library.
 
 ## Credits
 This project is distributed under Attribution 4.0 International (CC BY 4.0) license.
