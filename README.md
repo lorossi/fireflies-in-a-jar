@@ -1,10 +1,10 @@
 # Fireflies in a jar
 
-I wanted to make something special for my girlfriend. You know, I'm terrible at making gifts.
+`I wanted to make something special for my girlfriend. You know, I'm terrible at making gifts.`
 
-So I thought: why don't I make something by myself? Lucky me, I had many Arduino Pro Micro, a bunch of leds, a big lipo battery and enough cables to connect Rome to Tokyo.
+*So I thought: why don't I make something by myself?* Lucky me, I had many Arduino Pro Micro, a bunch of leds, a big lipo battery and enough cables to connect Rome to Tokyo.
 
-I bought a glass jar and I filled it with led. By making it a little bit opaque (pro tip: don't try to use a dremel to grind, the jar exploded in my hands and glass shards flew everywhere) and hopefully only using it in the dark, it makes a pretty cool effect!
+I bought a glass jar and I filled it with led. By making it a little bit opaque (*pro tip: don't try to use a dremel to grind, the jar exploded in my hands and glass shards flew everywhere*) and hopefully only using it in the dark, it makes a pretty cool effect!
 
 The lights blink for a random period of time and are each delayed by a random amount of time. After each time turn on, the delay is slightly adjusted so it's closer to the others. After a while, they will all blink at the same time!
 
