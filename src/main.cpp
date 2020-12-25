@@ -1,3 +1,6 @@
+// Made by Lorenzo Rossi
+/// www.lorenzoros.si - www.github.com/lorossi
+
 #include <Arduino.h>
 #include <SoftPWM.h>
 #include <avr/sleep.h>
@@ -15,7 +18,7 @@
 #define MAX_EQUAL_ITERATIONS 6 // number of iterations with same offset before the whole program is reset with random values
 
 
-byte fireflies_pins[FIREFLIES_NUM] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15}; // this array should be changed to keep track of where the LEDs are connected
+byte fireflies_pins[FIREFLIES_NUM] = {0, 1, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15}; // this array keeps track of where the LEDs are connected
 byte fireflies_value[FIREFLIES_NUM]; // this array contains the current PWM value of the led
 byte fireflies_offset[FIREFLIES_NUM]; // this array contains the current offset (animation delay) of the led
 byte equal_iterations; // number of animations with the same offset for each led
@@ -163,7 +166,7 @@ void loop() {
           // otherwise it woulnd't start from off and weird things would happen
           if (!fireflies_first[i]){
             SoftPWMSet(fireflies_pins[i], value);
-          } 
+          }
 
           // update firefly offset (delay) only if the animation has ended
           if (level == 255 && !fireflies_updated[i]) {
